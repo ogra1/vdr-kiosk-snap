@@ -58,13 +58,14 @@ parts:
         x86_64-linux-gnu|i386-linux-gnu)
           echo "Building without libdvbcsa"
           make DESTDIR=$SNAPCRAFT_PART_INSTALL PREFIX=/usr
+          make install DESTDIR=$SNAPCRAFT_PART_INSTALL PREFIX=/usr
           ;;
         *)
           echo "Building with libdvbcsa"
           make DESTDIR=$SNAPCRAFT_PART_INSTALL PREFIX=/usr LIBDVBCSA=1
+          make install DESTDIR=$SNAPCRAFT_PART_INSTALL PREFIX=/usr LIBDVBCSA=1
           ;;
       esac
-      make install DESTDIR=$SNAPCRAFT_PART_INSTALL PREFIX=/usr
       mv -v $SNAPCRAFT_PART_INSTALL/libvdr-* $SNAPCRAFT_PART_INSTALL/usr/lib/vdr/
       cp -av runvdr.template $SNAPCRAFT_PART_INSTALL/usr/share/vdr/
     build-packages:
