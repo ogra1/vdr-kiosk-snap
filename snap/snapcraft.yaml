@@ -46,7 +46,12 @@ parts:
       git clone --depth=1 git://projects.vdr-developer.org/vdr-plugin-live.git PLUGINS/src/live
       git clone --depth=1 git://projects.vdr-developer.org/vdr-plugin-streamdev.git PLUGINS/src/streamdev
       git clone --depth=1 git://projects.vdr-developer.org/vdr-plugin-osdteletext.git PLUGINS/src/osdteletext
-      git clone --depth=1 git://projects.vdr-developer.org/xineliboutput.git PLUGINS/src/xineliboutput
+      git clone --depth 1 https://git.code.sf.net/p/xineliboutput/git PLUGINS/src/xineliboutput
+      cd PLUGINS/src/xineliboutput
+      git apply ../../../../../../xineliboutput.patch
+      cd -
+      mkdir -p $SNAPCRAFT_PART_INSTALL/usr/lib/vdr/
+      #git clone --depth=1 git://projects.vdr-developer.org/xineliboutput.git PLUGINS/src/xineliboutput
       #      git clone --depth=1 git://projects.vdr-developer.org/vdr-plugin-epgsearch.git PLUGINS/src/epgsearch
       #      git clone --depth=1 git://projects.vdr-developer.org/vdr-plugin-eepg.git PLUGINS/src/eepg
       case $SNAPCRAFT_ARCH_TRIPLET in
@@ -99,7 +104,6 @@ parts:
       - libmagickwand-6.q16-2
       - libcxxtools9v5
       - libtntnet12v5
-      - xineliboutput-sxfe
       - on armhf:
         - libdvbcsa1
       - on arm64:
