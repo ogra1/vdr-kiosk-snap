@@ -41,15 +41,23 @@ parts:
       # git clone --depth=1 git://projects.vdr-developer.org/vdr-plugin-softhddevice.git PLUGINS/src/softhddevice
       git clone --depth=1 https://github.com/yavdr/vdr-plugin-restfulapi.git PLUGINS/src/restfulapi
       git clone --depth=1 https://github.com/FernetMenta/vdr-plugin-vnsiserver.git PLUGINS/src/vnsiserver
-      # fails on armhf ..
-      # git clone --depth=1 https://github.com/manio/vdr-plugin-dvbapi.git PLUGINS/src/dvbapi
+      git clone --depth=1 https://github.com/manio/vdr-plugin-dvbapi.git PLUGINS/src/dvbapi
       git clone --depth=1 git://projects.vdr-developer.org/vdr-plugin-epgfixer.git PLUGINS/src/epgfixer
       git clone --depth=1 git://projects.vdr-developer.org/vdr-plugin-live.git PLUGINS/src/live
       git clone --depth=1 git://projects.vdr-developer.org/vdr-plugin-streamdev.git PLUGINS/src/streamdev
       git clone --depth=1 git://projects.vdr-developer.org/vdr-plugin-osdteletext.git PLUGINS/src/osdteletext
       #      git clone --depth=1 git://projects.vdr-developer.org/vdr-plugin-epgsearch.git PLUGINS/src/epgsearch
       #      git clone --depth=1 git://projects.vdr-developer.org/vdr-plugin-eepg.git PLUGINS/src/eepg
-      make DESTDIR=$SNAPCRAFT_PART_INSTALL PREFIX=/usr
+      case $SNAPRAFT_ARCH_TRIPLET in
+        x86_64-linux-gnu|i386-linux-gnu)
+          echo "Building without libdvbcsa"
+          make DESTDIR=$SNAPCRAFT_PART_INSTALL PREFIX=/usr
+          ;;
+        *)
+          echo "Building with libdvbcsa"
+          make DESTDIR=$SNAPCRAFT_PART_INSTALL PREFIX=/usr LIBDVBCSA=1
+          ;;
+      esac
       make install DESTDIR=$SNAPCRAFT_PART_INSTALL PREFIX=/usr
       mv -v $SNAPCRAFT_PART_INSTALL/libvdr-* $SNAPCRAFT_PART_INSTALL/usr/lib/vdr/
       cp -av runvdr.template $SNAPCRAFT_PART_INSTALL/usr/share/vdr/
@@ -69,6 +77,10 @@ parts:
       - libcxxtools-dev
       - libmagick++-dev
       - libtntnet-dev
+      - on armhf to armhf:
+        - libdvbcsa-dev
+      - on arm64 to arm64:
+        - libdvbcsa-dev
     stage-packages:
       - fontconfig-config
       - fontconfig
@@ -86,3 +98,7 @@ parts:
       - libcxxtools9v5
       - libtntnet12v5
       - xineliboutput-sxfe
+      - on armhf to armhf:
+        - libdvbcsa1
+      - on arm64 to arm64:
+        - libdvbcsa1
