@@ -34,7 +34,6 @@ parts:
     source: git://projects.vdr-developer.org/vdr.git
     source-depth: 1
     plugin: make
-    after: [ triplet ]
     override-build: |
       set -e
       # git clone --depth=1 git://projects.vdr-developer.org/vdr-plugin-amlhddevice.git PLUGINS/src/amlhddevice
