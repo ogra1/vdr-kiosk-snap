@@ -34,6 +34,7 @@ parts:
     source: git://projects.vdr-developer.org/vdr.git
     source-depth: 1
     plugin: make
+    after: [ triplet ]
     override-build: |
       set -e
       # git clone --depth=1 git://projects.vdr-developer.org/vdr-plugin-amlhddevice.git PLUGINS/src/amlhddevice
@@ -48,7 +49,7 @@ parts:
       git clone --depth=1 git://projects.vdr-developer.org/vdr-plugin-osdteletext.git PLUGINS/src/osdteletext
       #      git clone --depth=1 git://projects.vdr-developer.org/vdr-plugin-epgsearch.git PLUGINS/src/epgsearch
       #      git clone --depth=1 git://projects.vdr-developer.org/vdr-plugin-eepg.git PLUGINS/src/eepg
-      case $SNAPRAFT_ARCH_TRIPLET in
+      case $SNAPCRAFT_ARCH_TRIPLET in
         x86_64-linux-gnu|i386-linux-gnu)
           echo "Building without libdvbcsa"
           make DESTDIR=$SNAPCRAFT_PART_INSTALL PREFIX=/usr
