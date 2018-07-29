@@ -1,0 +1,69 @@
+name: vdr
+version: '2.3.3'
+summary: Video Disk Recorder
+description: |
+  The "set-top boxes" available from commercial companies all have
+  one major drawback, they are not "open". This project's goal is
+  to build an "open" digital satellite receiver and timer controlled
+  video disk recorder, based upon open standards and freely available
+  driver software (of course, the hardware still has to be bought).
+  store.
+
+grade: stable
+confinement: strict
+
+parts:
+  vdr:
+    source: git://projects.vdr-developer.org/vdr.git
+    source-depth: 1
+    plugin: make
+    override-build: |
+      set -e
+      # git clone --depth=1 git://projects.vdr-developer.org/vdr-plugin-amlhddevice.git PLUGINS/src/amlhddevice
+      # git clone --depth=1 git://projects.vdr-developer.org/vdr-plugin-rpihddevice.git PLUGINS/src/rpihddevice
+      # git clone --depth=1 git://projects.vdr-developer.org/vdr-plugin-softhddevice.git PLUGINS/src/softhddevice
+      git clone --depth=1 https://github.com/yavdr/vdr-plugin-restfulapi.git PLUGINS/src/restfulapi
+      git clone --depth=1 https://github.com/FernetMenta/vdr-plugin-vnsiserver.git PLUGINS/src/vnsiserver
+      git clone --depth=1 https://github.com/manio/vdr-plugin-dvbapi.git PLUGINS/src/dvbapi
+      #      git clone --depth=1 git://projects.vdr-developer.org/vdr-plugin-eepg.git PLUGINS/src/eepg
+      git clone --depth=1 git://projects.vdr-developer.org/vdr-plugin-epgfixer.git PLUGINS/src/epgfixer
+      #      git clone --depth=1 git://projects.vdr-developer.org/vdr-plugin-epgsearch.git PLUGINS/src/epgsearch
+      git clone --depth=1 git://projects.vdr-developer.org/vdr-plugin-live.git PLUGINS/src/live
+      git clone --depth=1 git://projects.vdr-developer.org/vdr-plugin-streamdev.git PLUGINS/src/streamdev
+      git clone --depth=1 git://projects.vdr-developer.org/vdr-plugin-osdteletext.git PLUGINS/src/osdteletext
+      make DESTDIR=$SNAPCRAFT_PART_INSTALL PREFIX=/usr
+      make install DESTDIR=$SNAPCRAFT_PART_INSTALL PREFIX=/usr
+      mv -v $SNAPCRAFT_PART_INSTALL/libvdr-* $SNAPCRAFT_PART_INSTALL/usr/lib/vdr/
+      cp -av runvdr.template $SNAPCRAFT_PART_INSTALL/usr/share/vdr/
+    build-packages:
+      - gettext
+      - git
+      - libavcodec-dev
+      - libcap-dev
+      - libfontconfig1-dev
+      - libfreetype6-dev
+      - libfribidi-dev
+      - libjpeg8-dev
+      - libncurses5-dev
+      - libncursesw5-dev
+      - libx11-xcb-dev
+      - libxcb-screensaver0-dev
+      - libcxxtools-dev
+      - libmagick++-dev
+      - libtntnet-dev
+    stage-packages:
+      - fontconfig-config
+      - fontconfig
+      - libfreetype6
+      - libfribidi0
+      - gettext
+      - libcap2
+      - libjpeg8
+      - libavcodec-extra
+      - libx11-xcb1
+      - libpcrecpp0v5
+      - libmagick++-6.q16-5v5
+      - libmagickcore-6.q16-2
+      - libmagickwand-6.q16-2
+      - libcxxtools9v5
+      - libtntnet12v5
