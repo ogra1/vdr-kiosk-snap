@@ -46,6 +46,7 @@ parts:
       git clone --depth=1 git://projects.vdr-developer.org/vdr-plugin-live.git PLUGINS/src/live
       git clone --depth=1 git://projects.vdr-developer.org/vdr-plugin-streamdev.git PLUGINS/src/streamdev
       git clone --depth=1 git://projects.vdr-developer.org/vdr-plugin-osdteletext.git PLUGINS/src/osdteletext
+      git clone --depth=1 git://projects.vdr-developer.org/xineliboutput.git PLUGINS/src/xineliboutput
       #      git clone --depth=1 git://projects.vdr-developer.org/vdr-plugin-epgsearch.git PLUGINS/src/epgsearch
       #      git clone --depth=1 git://projects.vdr-developer.org/vdr-plugin-eepg.git PLUGINS/src/eepg
       case $SNAPCRAFT_ARCH_TRIPLET in
@@ -77,10 +78,11 @@ parts:
       - libcxxtools-dev
       - libmagick++-dev
       - libtntnet-dev
-      - on armhf to armhf:
+      - on armhf:
         - libdvbcsa-dev
-      - on arm64 to arm64:
+      - on arm64:
         - libdvbcsa-dev
+      - libxine2-dev
     stage-packages:
       - fontconfig-config
       - fontconfig
@@ -98,7 +100,8 @@ parts:
       - libcxxtools9v5
       - libtntnet12v5
       - xineliboutput-sxfe
-      - on armhf to armhf:
+      - on armhf:
         - libdvbcsa1
-      - on arm64 to arm64:
+      - on arm64:
         - libdvbcsa1
+      - libxine2-bin
