@@ -12,6 +12,23 @@ description: |
 grade: stable
 confinement: strict
 
+apps:
+  vdr-kiosk:
+    command: usr/bin/vdr
+    daemon: simple
+    plugs:
+      - hardware-observe
+      - dvb
+      - network
+      - network-bind
+  vdr-sxfe:
+    command: usr/bin/vdr-sxfe
+    plugs:
+      - x11
+      - opengl
+      - network
+      - network-bind
+
 parts:
   vdr:
     source: git://projects.vdr-developer.org/vdr.git
@@ -24,13 +41,14 @@ parts:
       # git clone --depth=1 git://projects.vdr-developer.org/vdr-plugin-softhddevice.git PLUGINS/src/softhddevice
       git clone --depth=1 https://github.com/yavdr/vdr-plugin-restfulapi.git PLUGINS/src/restfulapi
       git clone --depth=1 https://github.com/FernetMenta/vdr-plugin-vnsiserver.git PLUGINS/src/vnsiserver
-      git clone --depth=1 https://github.com/manio/vdr-plugin-dvbapi.git PLUGINS/src/dvbapi
-      #      git clone --depth=1 git://projects.vdr-developer.org/vdr-plugin-eepg.git PLUGINS/src/eepg
+      # fails on armhf ..
+      # git clone --depth=1 https://github.com/manio/vdr-plugin-dvbapi.git PLUGINS/src/dvbapi
       git clone --depth=1 git://projects.vdr-developer.org/vdr-plugin-epgfixer.git PLUGINS/src/epgfixer
-      #      git clone --depth=1 git://projects.vdr-developer.org/vdr-plugin-epgsearch.git PLUGINS/src/epgsearch
       git clone --depth=1 git://projects.vdr-developer.org/vdr-plugin-live.git PLUGINS/src/live
       git clone --depth=1 git://projects.vdr-developer.org/vdr-plugin-streamdev.git PLUGINS/src/streamdev
       git clone --depth=1 git://projects.vdr-developer.org/vdr-plugin-osdteletext.git PLUGINS/src/osdteletext
+      #      git clone --depth=1 git://projects.vdr-developer.org/vdr-plugin-epgsearch.git PLUGINS/src/epgsearch
+      #      git clone --depth=1 git://projects.vdr-developer.org/vdr-plugin-eepg.git PLUGINS/src/eepg
       make DESTDIR=$SNAPCRAFT_PART_INSTALL PREFIX=/usr
       make install DESTDIR=$SNAPCRAFT_PART_INSTALL PREFIX=/usr
       mv -v $SNAPCRAFT_PART_INSTALL/libvdr-* $SNAPCRAFT_PART_INSTALL/usr/lib/vdr/
@@ -67,3 +85,4 @@ parts:
       - libmagickwand-6.q16-2
       - libcxxtools9v5
       - libtntnet12v5
+      - xineliboutput-sxfe
