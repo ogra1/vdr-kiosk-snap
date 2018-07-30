@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=VDR Kiosk Client
+Comment=Run a VDR in Kiosk mode on mir-kiosk
+Icon=${SNAP}/meta/gui/icon.png
+Exec=vdr-kiosk.vdr-sxfe
+Terminal=false
+Categories=Utility;
